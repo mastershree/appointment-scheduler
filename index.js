@@ -4,7 +4,6 @@ import bcrypt from "bcryptjs";
 import cors from "cors";
 import moment from "moment";
 import path from "path";
-import functions from "firebase-functions";
 
 const app = express();
 
