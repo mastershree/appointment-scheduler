@@ -8,13 +8,12 @@ import path from "path";
 const app = express();
 
 app.use(cors()); // Use this after the variable declaration
-import mysql from "mysql";
+import mysql from "db-mysql";
 import { emailRouter } from "./email.restRouter";
-import { ppid } from "process";
 
 //create database connection
 
-const conn = mysql.createConnection({
+const conn = mysql.Database({
   host: "sql12.freemysqlhosting.net",
   user: "sql12348970",
   password: "bKGtKL8YxX",
