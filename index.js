@@ -13,8 +13,8 @@ import { emailRouter } from "./email.restRouter";
 
 //create database connection
 
-const conn = mysql.createConnection({
-  server: "sql12.freemysqlhosting.net",
+const conn = mysql.createPool({
+  host: "sql12.freemysqlhosting.net",
   user: "sql12348970",
   password: "bKGtKL8YxX",
   database: "sql12348970",
