@@ -52,7 +52,7 @@ class Login extends Component {
 
     // let { history } = this.props;
     axios
-      .post("http://localhost:3001/auth/login", data)
+      .post("/auth/login", data)
       .then((res) => {
         if (res.status === 200) {
           //console.log(res);
