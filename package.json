@@ -6,7 +6,7 @@
   "proxy": "http://localhost:3001",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prod": "node -r esm index.js",
+    "start": "node -r esm index.js",
     "dev": "nodemon -r esm index.js"
   },
   "author": "Shrikant Gawas",

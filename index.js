@@ -223,7 +223,7 @@ app.use("/reset_password", emailRouter);
 
 // Get Schedule Events of user for current month
 
-app.get("/api/schedule_events/:user", async (req, res) => {
+app.get("/api/schedule_events/:user",  (req, res) => {
   let user = req.params.user;
 
   let cur_date = new Date();
@@ -261,7 +261,7 @@ app.get("/api/schedule_events/:user", async (req, res) => {
 
       console.log(select2);
 
-      let query2 = await con.query(select2, (err, results) => {
+      let query2 = con.query(select2, (err, results) => {
         if (err) res.status(500);
         if (results) {
           //   console.log("Upcoming:", results);
