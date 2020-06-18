@@ -63,11 +63,11 @@ app.use(express.static(path.join(__dirname, "build")));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "build/index.html"));
 });
-
+/*
 app.get("/app*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
-
+*/
 /*
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
