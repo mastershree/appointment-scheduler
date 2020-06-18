@@ -88,7 +88,7 @@ class Schedule extends Component {
     console.log("Api called!!");
 
     axios
-      .get(`http://localhost:3001/api/event_types/${this.user}`)
+      .get(`api/event_types/${this.user}`)
       .then((res) => {
         console.log(res.status);
         if (res.status === 200 && res.data.length > 0) {
@@ -105,7 +105,7 @@ class Schedule extends Component {
     console.log("Api called!!");
 
     axios
-      .get(`http://localhost:3001/api/schedule_events/${this.user}`)
+      .get(`api/schedule_events/${this.user}`)
       .then((res) => {
         console.log(res.status);
         if (res.status === 200) {

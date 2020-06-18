@@ -22,14 +22,11 @@ class EditEventType extends Component {
     let user = this.props.location.user;
     console.log("Editing");
     axios
-      .put(
-        `http://localhost:3001/api/event_type/edit/${this.editEventType.title}`,
-        {
-          title,
-          duration,
-          user,
-        }
-      )
+      .put(`api/event_type/edit/${this.editEventType.title}`, {
+        title,
+        duration,
+        user,
+      })
       .then((res) => {
         if (res.status === 200) {
           console.log("Event type edited successfully", res);

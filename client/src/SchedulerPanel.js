@@ -68,9 +68,7 @@ class SchedularPanel extends Component {
 
   componentDidMount() {
     axios
-      .get(
-        `http://localhost:3001/api/schedule_events/${this.event.id}/${this.event.duration}`
-      )
+      .get(`api/schedule_events/${this.event.id}/${this.event.duration}`)
       .then((res) => {
         console.log(res.status);
         if (res.status === 200) {
@@ -155,7 +153,7 @@ class SchedularPanel extends Component {
     console.log("scheduled event data:", data);
 
     axios
-      .post(`http://localhost:3001/api/schedule_event/${this.event.id}`, data)
+      .post(`api/schedule_event/${this.event.id}`, data)
       .then((res) => {
         console.log(res);
       })

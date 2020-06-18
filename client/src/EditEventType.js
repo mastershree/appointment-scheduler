@@ -40,7 +40,7 @@ class EditEventType extends Component {
     console.log(this.state);
 
     axios
-      .put(`http://localhost:3001/api/event_type/edit/${this.state.id}`, {
+      .put(`api/event_type/edit/${this.state.id}`, {
         title: this.state.title,
         duration: this.state.duration,
       })

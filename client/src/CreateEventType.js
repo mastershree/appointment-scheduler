@@ -40,7 +40,7 @@ class CreateEventType extends Component {
     console.log(this.state);
 
     axios
-      .post("http://localhost:3001/api/event_type/create/", {
+      .post("api/event_type/create/", {
         title: this.state.title,
         duration: this.state.duration,
         user: this.state.user,
