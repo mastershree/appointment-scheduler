@@ -13,31 +13,56 @@ import { emailRouter } from "./email.restRouter";
 
 //create database connection
 
-const conn = mysql.createPool({
-  address: "sql12.freemysqlhosting.net",
+export const con = mysql.createPool({
+  connectionLimit: 10,
+  host: "sql12.freemysqlhosting.net",
   user: "sql12348970",
   password: "bKGtKL8YxX",
   database: "sql12348970",
+  // socketPath: "/var/run/mysqld/mysqld.sock",
   port: 3306,
+});
+/*
+const conn = mysql.createConnection(
+  "mysql://sql12348970:bKGtKL8YxX@sql12.freemysqlhosting.net/sql12348970?debug=true"
+);
+*/
+
+con.getConnection((err, connection) => {
+  if (err) {
+    if (err.code === "PROTOCOL_CONNECTION_LOST") {
+      console.error("Database connection was closed.");
+    }
+    if (err.code === "ER_CON_COUNT_ERROR") {
+      console.error("Database has too many connections.");
+    }
+    if (err.code === "ECONNREFUSED") {
+      console.error("Database connection was refused.");
+    }
+  }
+  if (connection) connection.release();
+  return;
 });
 
 //const conn = mysql.createConnection(process.env.DATABASE_URL);
 
 //connect to database
-conn.connect((err) => {
+/* conn.connect((err) => {
   if (err) throw err;
   console.log("Mysql Connected...");
 });
-
+*/
 const JWT_SECRET = "password";
 // parse application/json
 app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, "build")));
 
+/*
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
+*/
 
 app.get("/app*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
@@ -59,7 +84,7 @@ app.post("/auth/login", (req, res) => {
   let user;
   let sql =
     "SELECT name, email, password FROM users WHERE email='" + data.email + "'";
-  let query2 = conn.query(sql, (err, results) => {
+  let query2 = con.query(sql, (err, results) => {
     if (err) res.status(500).send("Error on the server.");
     user = results[0];
     if (!user) return res.status(404).send("No user found.");
@@ -84,7 +109,7 @@ app.post("/api/user/register", (req, res) => {
   console.log(req.body);
 
   let select = `select count(email) as count from users where email='${data.email}'`;
-  let query1 = conn.query(select, (err, results) => {
+  let query1 = con.query(select, (err, results) => {
     if (err) res.status(500);
     let [row] = results;
 
@@ -98,7 +123,7 @@ app.post("/api/user/register", (req, res) => {
           if (err) throw err;
           data.password = hash;
           let sql = "INSERT INTO users SET ?";
-          let query2 = conn.query(sql, data, (err, results) => {
+          let query2 = con.query(sql, data, (err, results) => {
             if (err) throw err;
             res.send(
               JSON.stringify({ status: 200, error: null, response: results })
@@ -114,7 +139,7 @@ app.post("/api/user/register", (req, res) => {
 app.get("/api/event_types/:user", (req, res) => {
   console.log("Api called");
   let select = `select id, title, durationMins as duration from EventTypes where createdBy='${req.params.user}'`;
-  let query1 = conn.query(select, (err, results) => {
+  let query1 = con.query(select, (err, results) => {
     if (err) res.status(500);
     if (results) {
       res.send(results);
@@ -136,7 +161,7 @@ app.post("/api/event_type/create", (req, res) => {
 
   let select = `select count(title) as count from EventTypes 
   where title='${data.title}' and createdBy='${data.createdBy}'`;
-  let query1 = conn.query(select, (err, results) => {
+  let query1 = con.query(select, (err, results) => {
     if (err) res.status(500);
     // console.log(results);
     let [row] = results;
@@ -145,7 +170,7 @@ app.post("/api/event_type/create", (req, res) => {
       res.status(403).send("Event type already exists");
     } else {
       let sql = "INSERT INTO EventTypes SET ?";
-      let query2 = conn.query(sql, data, (err, results) => {
+      let query2 = con.query(sql, data, (err, results) => {
         if (err) res.status(500);
         if (results) {
           //    console.log(results);
@@ -166,7 +191,7 @@ app.put("/api/event_type/edit/:id", (req, res) => {
     req.body.duration +
     "' WHERE id=" +
     req.params.id;
-  let query = conn.query(sql, (err, results) => {
+  let query = con.query(sql, (err, results) => {
     if (err) res.status(500);
     if (results) {
       //  console.log(results);
@@ -183,7 +208,7 @@ app.delete("/api/event_type/delete/:user/:title", (req, res) => {
     "' and user='" +
     req.params.user +
     "'";
-  let query = conn.query(sql, (err, results) => {
+  let query = con.query(sql, (err, results) => {
     if (err) res.status(500);
     if (results) {
       //   console.log(results);
@@ -211,7 +236,7 @@ app.get("/api/schedule_events/:user", async (req, res) => {
 
   let select1 = `select id from EventTypes where createdBy='${user}'`;
 
-  let query1 = await conn.query(select1, async (err, results) => {
+  let query1 = await con.query(select1, async (err, results) => {
     if (err) res.status(500);
     if (results) {
       //console.log(results);
@@ -236,7 +261,7 @@ app.get("/api/schedule_events/:user", async (req, res) => {
 
       console.log(select2);
 
-      let query2 = await conn.query(select2, (err, results) => {
+      let query2 = await con.query(select2, (err, results) => {
         if (err) res.status(500);
         if (results) {
           //   console.log("Upcoming:", results);
@@ -247,7 +272,7 @@ app.get("/api/schedule_events/:user", async (req, res) => {
           from ScheduledEvents s join EventTypes e on s.event=e.id where  event in ${events}
           and date < '${nowDate}'`;
 
-          let query2 = conn.query(select3, (err, results) => {
+          let query2 = con.query(select3, (err, results) => {
             if (err) res.status(500);
             if (results) {
               //  console.log("Past data:", results);
@@ -319,16 +344,16 @@ app.get("/api/schedule_events/:event/:duration", async (req, res) => {
 
   let nowDate = `${curYear}-${curMonth}-${curDate}`;
 
-  let select = `select date, time_slot_start from ScheduledEvents where event=${eventId} 
+  let select = `select DATE_FORMAT(date,"%d/%m/%Y") as date, time_slot_start from ScheduledEvents where event=${eventId} 
  and date>=${nowDate} `;
 
-  let query = await conn.query(select, (err, results) => {
+  let query = con.query(select, (err, results) => {
     let events;
     if (err) res.status(500);
     if (results) {
       events = results.map((data) => {
         let date = data.date;
-
+        console.log("date in db:", date);
         let time_slot = data.time_slot_start;
 
         let date_index = scheduled_events.findIndex((e) => e.date === date);
@@ -379,7 +404,7 @@ app.post("/api/schedule_event/:eventId", (req, res) => {
   and time_slot_end='${data.time_slot_end}'
   `;
 
-  let query1 = conn.query(select, (err, results) => {
+  let query1 = con.query(select, (err, results) => {
     if (err) res.status(500);
     console.log(results);
     let [row] = results;
@@ -388,7 +413,7 @@ app.post("/api/schedule_event/:eventId", (req, res) => {
       res.status(403).send("Event already scheduled on the given time slot");
     } else {
       let sql = "INSERT INTO ScheduledEvents SET ?";
-      let query2 = conn.query(sql, data, (err, results) => {
+      let query2 = con.query(sql, data, (err, results) => {
         if (err) res.status(500);
         if (results) {
           console.log(results);
@@ -403,3 +428,13 @@ app.post("/api/schedule_event/:eventId", (req, res) => {
 app.listen(3001, () => {
   console.log("Server started on port 3001...");
 });
+
+/*
+con.end(function (err) {
+  // The connection is terminated gracefully
+  // Ensures all previously enqueued queries are still
+  // before sending a COM_QUIT packet to the MySQL server.
+  if (err) console.log("err: ", err);
+  else console.log("Terminated done: ");
+});
+*/

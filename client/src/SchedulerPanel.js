@@ -79,8 +79,6 @@ class SchedularPanel extends Component {
             return { ...state, data: res.data.dates };
           });
           console.log(this.state.data);
-          //  this.setState({ event_types: res.data });
-          // this.props.loadEventTypes(res.data);
         }
       })
       .catch((err) => console.log);
@@ -135,12 +133,21 @@ class SchedularPanel extends Component {
 
   scheduleEvent = (event) => {
     event.preventDefault();
+    let { selectDate } = this.state;
+
+    let curDate = selectDate.getDate();
+    let curMonth = selectDate.getMonth() + 1;
+    let curYear = selectDate.getFullYear();
+
+    let nowDate = `${curYear}-${curMonth}-${curDate}`;
+
+    console.log("Schedule date", nowDate);
 
     let data = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       emailAddress: this.state.emailAddress,
-      selectDate: this.state.selectDate.toLocaleDateString(),
+      selectDate: nowDate,
       selectedSlotStart: this.state.selectedSlotStart,
       selectedSlotEnd: this.state.selectedSlotEnd,
     };
@@ -172,8 +179,13 @@ class SchedularPanel extends Component {
 
     const { data, selectDate } = this.state;
 
+    console.log("now date:", selectDate.toLocaleDateString());
+
     //  if (data.length > 0) {
-    let cur = data.filter((a) => a.date === selectDate.toLocaleDateString());
+    let cur = data.filter((a) => {
+      console.log("date in db", a.date);
+      return a.date === selectDate.toLocaleDateString();
+    });
     let [for_cur_date] = cur;
     console.log(for_cur_date);
     console.log(selectDate);

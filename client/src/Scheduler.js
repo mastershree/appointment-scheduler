@@ -54,38 +54,39 @@ const Scheduler = (props) => {
         </p>
         <Card style={{ width: "24rem", border: "none" }}>
           <ul>
-            {eventTypes.map((et) => (
-              <div key={et.id}>
-                <hr />
-                <li>
-                  <p
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <span>
-                      <FontAwesomeIcon
-                        icon={faCircle}
-                        style={{ color: "#7B68EE", marginRight: "10px" }}
-                      />
-                      {et.title}
-                    </span>
-                    <span>
-                      <Link
-                        to={{
-                          pathname: `${props.location.pathname}/panel`,
-                          user: loggedUser,
-                          event: et,
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faCaretRight} />
-                      </Link>
-                    </span>
-                  </p>
-                </li>
-              </div>
-            ))}
+            {eventTypes.length > 0 &&
+              eventTypes.map((et) => (
+                <div key={et.id}>
+                  <hr />
+                  <li>
+                    <p
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span>
+                        <FontAwesomeIcon
+                          icon={faCircle}
+                          style={{ color: "#7B68EE", marginRight: "10px" }}
+                        />
+                        {et.title}
+                      </span>
+                      <span>
+                        <Link
+                          to={{
+                            pathname: `${props.location.pathname}/panel`,
+                            user: loggedUser,
+                            event: et,
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faCaretRight} />
+                        </Link>
+                      </span>
+                    </p>
+                  </li>
+                </div>
+              ))}
           </ul>
         </Card>
       </Container>

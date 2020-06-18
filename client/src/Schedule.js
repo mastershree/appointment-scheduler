@@ -91,11 +91,12 @@ class Schedule extends Component {
       .get(`http://localhost:3001/api/event_types/${this.user}`)
       .then((res) => {
         console.log(res.status);
-        if (res.status === 200) {
+        if (res.status === 200 && res.data.length > 0) {
+          console.log("Yippie");
           this.setState({ event_types: res.data });
           this.props.loadEventTypes(res.data);
-          //console.log("Respone: ", res.data);
         }
+        console.log("Respone: ", res.data);
       })
       .catch((err) => console.log);
   };
@@ -183,27 +184,28 @@ class Schedule extends Component {
                     </div>
                     <hr />
                     <CardDeck style={{ marginTop: "2rem" }}>
-                      {this.state.event_types &&
-                        this.state.event_types.map((event, index) => (
-                          <Card body className="event_cards" key={index}>
-                            <CardText>{event.title}</CardText>
-                            <CardText>
-                              <small className="text-muted">
-                                {event.duration} mins
-                              </small>
-                            </CardText>
-                            <CardFooter style={{ backgroundColor: "white" }}>
-                              <Link
-                                to={{
-                                  pathname: "/app/event_type/edit",
-                                  event: event,
-                                }}
-                              >
-                                Edit
-                              </Link>
-                            </CardFooter>
-                          </Card>
-                        ))}
+                      {this.state.event_types.length > 0
+                        ? this.state.event_types.map((event, index) => (
+                            <Card body className="event_cards" key={index}>
+                              <CardText>{event.title}</CardText>
+                              <CardText>
+                                <small className="text-muted">
+                                  {event.duration} mins
+                                </small>
+                              </CardText>
+                              <CardFooter style={{ backgroundColor: "white" }}>
+                                <Link
+                                  to={{
+                                    pathname: "/app/event_type/edit",
+                                    event: event,
+                                  }}
+                                >
+                                  Edit
+                                </Link>
+                              </CardFooter>
+                            </Card>
+                          ))
+                        : ""}
                     </CardDeck>
                   </Col>
                 </Row>

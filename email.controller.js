@@ -6,20 +6,24 @@ import {
   getPasswordResetURL,
   resetPasswordTemplate,
 } from "./email";
-import mysql from "mysql";
+import { con } from "./index";
 
 //create database connection
+/*
 const conn = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
   database: "restful_db",
 });
+
+
 //connect to database
 conn.connect((err) => {
   if (err) throw err;
   console.log("Mysql Connected...");
 });
+*/
 
 export const usePasswordHashToMakeToken = ({ email, password, createdAt }) => {
   const secret = password + "-" + createdAt;
@@ -37,7 +41,7 @@ export const sendPasswordResetEmail = (req, res) => {
       "SELECT name, email, password, createdAt FROM users where email='" +
       email +
       "';";
-    conn.query(sql, (err, results) => {
+    con.query(sql, (err, results) => {
       if (err) throw err;
       user = { name: results[0].name, email: results[0].email };
       console.log(user);
@@ -69,7 +73,7 @@ export const receiveNewPassword = (req, res) => {
       "SELECT name, email, password, createdAt FROM users where email='" +
       email +
       "';";
-    conn.query(sql, (err, results) => {
+    con.query(sql, (err, results) => {
       if (err) throw err;
       user = results[0];
       console.log(user);
@@ -82,7 +86,7 @@ export const receiveNewPassword = (req, res) => {
           bcrypt.hash(password, salt, function (err, hash) {
             if (err) throw err;
             let sql = `Update users set password='${hash}' where email='${email}';`;
-            conn.query(sql, (err, results) => {
+            con.query(sql, (err, results) => {
               if (err) throw err;
               res.status(202).json("Password changed accepted");
             });
