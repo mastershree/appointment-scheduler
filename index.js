@@ -425,10 +425,10 @@ app.post("/api/schedule_event/:eventId", (req, res) => {
 });
 
 //Server listening
-app.listen(3001, () => {
-  console.log("Server started on port 3001...");
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Our app is running on port ${PORT}`);
 });
-
 /*
 con.end(function (err) {
   // The connection is terminated gracefully
