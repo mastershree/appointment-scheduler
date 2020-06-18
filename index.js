@@ -223,7 +223,7 @@ app.use("/reset_password", emailRouter);
 
 // Get Schedule Events of user for current month
 
-app.get("/api/schedule_events/:user",  (req, res) => {
+app.get("/api/schedule_events/:user", (req, res) => {
   let user = req.params.user;
 
   let cur_date = new Date();
@@ -236,7 +236,7 @@ app.get("/api/schedule_events/:user",  (req, res) => {
 
   let select1 = `select id from EventTypes where createdBy='${user}'`;
 
-  let query1 = await con.query(select1, async (err, results) => {
+  let query1 = con.query(select1, (err, results) => {
     if (err) res.status(500);
     if (results) {
       //console.log(results);
@@ -287,7 +287,7 @@ app.get("/api/schedule_events/:user",  (req, res) => {
 });
 
 // Get time slots for given event
-app.get("/api/schedule_events/:event/:duration", async (req, res) => {
+app.get("/api/schedule_events/:event/:duration", (req, res) => {
   //console.log("Getting scheduled events!!!");
 
   let eventId = req.params.event;
