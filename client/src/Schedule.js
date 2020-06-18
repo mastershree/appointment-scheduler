@@ -92,9 +92,9 @@ class Schedule extends Component {
       .then((res) => {
         console.log(res.status);
         if (res.status === 200 && res.data.length > 0) {
-          console.log("Yippie");
-          this.setState({ event_types: res.data });
-          this.props.loadEventTypes(res.data);
+          console.log("Yippie:", res.data);
+          // this.setState({ event_types: res.data });
+          //   this.props.loadEventTypes(res.data);
         }
         console.log("Respone: ", res.data);
       })
