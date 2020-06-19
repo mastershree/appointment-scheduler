@@ -168,7 +168,7 @@ class Schedule extends Component {
 
                       <Link
                         to={{
-                          pathname: "/app/event_type/create",
+                          pathname: "/event_type/create",
                           user: this.user,
                         }}
                         style={{ textDecoration: "none" }}
@@ -196,7 +196,7 @@ class Schedule extends Component {
                               <CardFooter style={{ backgroundColor: "white" }}>
                                 <Link
                                   to={{
-                                    pathname: "/app/event_type/edit",
+                                    pathname: "/event_type/edit",
                                     event: event,
                                   }}
                                 >

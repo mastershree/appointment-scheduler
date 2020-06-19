@@ -57,7 +57,7 @@ class Login extends Component {
         if (res.status === 200) {
           //console.log(res);
           this.props.setLoggedUser({ email: data.email, name: res.data.name });
-          this.props.history.push("/app/schedule");
+          this.props.history.push("/schedule");
         }
       })
       .catch((err) => console.log);

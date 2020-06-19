@@ -58,7 +58,7 @@ class App extends Component {
 
     let cust = name.replace(/\s+/g, "-").toLowerCase();
 
-    let customAppointmentLink = `/app/appointments/${cust}-bookings`;
+    let customAppointmentLink = `/appointments/${cust}-bookings`;
 
     // mocked custome appointment link for testing Schedular
     //   let customAppointmentLink = "/appointments/shrikant-gawas-bookings";
@@ -122,10 +122,10 @@ class App extends Component {
         <Router>
           <Switch>
             <Route exact path="/" component={Login} />
-            <Route exact path="/app/signup" component={Signup} />
+            <Route exact path="/signup" component={Signup} />
             <CustomRoute
               exact
-              path="/app/schedule"
+              path="/schedule"
               isUserLogged={this.props.isUserLogged}
               MyComponent={(props) => (
                 <Schedule
@@ -151,21 +151,21 @@ class App extends Component {
 
             <Route
               exact
-              path="/app/event_type/edit/"
+              path="/event_type/edit/"
               component={EditEventType}
               //render={(props) => <EditEventType {...props} />}
             />
 
             <Route
               exact
-              path="/app/event_type/create/"
+              path="/event_type/create/"
               component={CreateEventType}
             />
 
-            <Route exact path="/app/resetpassword" component={ResetPassword} />
+            <Route exact path="/resetpassword" component={ResetPassword} />
             <Route
               exact
-              path="/app/password/reset/:email/:token"
+              path="/password/reset/:email/:token"
               render={({ match }) => (
                 <UpdatePassword
                   email={match.params.email}
