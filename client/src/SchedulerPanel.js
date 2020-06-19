@@ -153,7 +153,7 @@ class SchedularPanel extends Component {
     console.log("scheduled event data:", data);
 
     axios
-      .post(`api/schedule_event/${this.event.id}`, data)
+      .post(`/api/schedule_event/${this.event.id}`, data)
       .then((res) => {
         console.log(res);
       })
