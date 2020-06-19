@@ -105,7 +105,7 @@ class Schedule extends Component {
     console.log("Api called!!");
 
     axios
-      .get(`api/schedule_events/${this.user}`)
+      .get(`/api/schedule_events/${this.user}`)
       .then((res) => {
         console.log(res.status);
         if (res.status === 200) {

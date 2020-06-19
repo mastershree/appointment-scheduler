@@ -387,7 +387,7 @@ app.get("/api/schedule_events/:event/:duration", (req, res) => {
   });
 });
 
-app.post("/api/schedule_event/:eventId", (req, res) => {
+app.post("*/api/schedule_event/:eventId", (req, res) => {
   let eventId = req.params.eventId;
 
   let data = {
