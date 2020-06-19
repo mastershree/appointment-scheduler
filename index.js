@@ -99,7 +99,7 @@ app.post("/auth/login", (req, res) => {
 });
 
 //create user
-app.post("/api/user/register", (req, res) => {
+app.post("*/api/user/register", (req, res) => {
   let data = {
     name: req.body.name,
     email: req.body.email,
@@ -137,7 +137,7 @@ app.post("/api/user/register", (req, res) => {
 });
 
 //fetch event_types
-app.get("/api/event_types/:user", (req, res) => {
+app.get("*/api/event_types/:user", (req, res) => {
   console.log("Api called");
   let select = `select id, title, durationMins as duration from EventTypes where createdBy='${req.params.user}'`;
   let query1 = con.query(select, (err, results) => {
@@ -151,7 +151,7 @@ app.get("/api/event_types/:user", (req, res) => {
 });
 
 //create event_type
-app.post("/api/event_type/create", (req, res) => {
+app.post("*/api/event_type/create", (req, res) => {
   let data = {
     title: req.body.title,
     durationMins: req.body.duration,
@@ -183,7 +183,7 @@ app.post("/api/event_type/create", (req, res) => {
 });
 
 //Edit event_type
-app.put("/api/event_type/edit/:id", (req, res) => {
+app.put("*/api/event_type/edit/:id", (req, res) => {
   // console.log("Editing");
   let sql =
     "UPDATE EventTypes SET title='" +
@@ -202,7 +202,7 @@ app.put("/api/event_type/edit/:id", (req, res) => {
 });
 
 //Delete event_type
-app.delete("/api/event_type/delete/:user/:title", (req, res) => {
+app.delete("*/api/event_type/delete/:user/:title", (req, res) => {
   let sql =
     "DELETE FROM event_types WHERE title='" +
     req.params.title +
@@ -220,11 +220,11 @@ app.delete("/api/event_type/delete/:user/:title", (req, res) => {
 
 // Password reset
 
-app.use("/reset_password", emailRouter);
+app.use("*/reset_password", emailRouter);
 
 // Get Schedule Events of user for current month
 
-app.get("/api/schedule_events/:user", (req, res) => {
+app.get("*/api/schedule_events/:user", (req, res) => {
   let user = req.params.user;
 
   let cur_date = new Date();
@@ -288,7 +288,7 @@ app.get("/api/schedule_events/:user", (req, res) => {
 });
 
 // Get time slots for given event
-app.get("/api/schedule_events/:event/:duration", (req, res) => {
+app.get("*/api/schedule_events/:event/:duration", (req, res) => {
   //console.log("Getting scheduled events!!!");
 
   let eventId = req.params.event;
