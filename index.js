@@ -58,7 +58,11 @@ app.use(bodyParser.json());
 
 console.log(__dirname);
 
-app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, "client/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build/index.html"));
+});
 
 /*
 app.get("/app*", (req, res) => {
@@ -419,10 +423,6 @@ app.post("/api/schedule_event/:eventId", (req, res) => {
       });
     }
   });
-});
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "build/index.html"));
 });
 
 //Server listening
