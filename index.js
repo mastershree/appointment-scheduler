@@ -300,9 +300,9 @@ app.get("*/api/schedule_events/:user", (req, res) => {
 app.get("*/api/schedule_events/:event/:duration", (req, res) => {
   //console.log("Getting scheduled events!!!");
 
-  let eventId = req.params.event;
+  const eventId = req.params.event;
 
-  let duration = req.params.duration;
+  const duration = req.params.duration;
 
   let selectedDate = new Date(req.query.date);
 
@@ -377,7 +377,15 @@ app.get("*/api/schedule_events/:event/:duration", (req, res) => {
 
           let time_slot_end = moment(data.time_slot_end, "HH:mm");
 
-          let compare = l >= time_slot_start && l < time_slot_end;
+          let diffDuration =
+            time_slot_start > l
+              ? moment.duration(time_slot_start.diff(l))
+              : moment.duration(l.diff(time_slot_start));
+
+          let diffMin = diffDuration.as("minutes");
+
+          let compare =
+            (l >= time_slot_start && l < time_slot_end) || diffMin < duration;
 
           return !compare;
         });
@@ -393,7 +401,15 @@ app.get("*/api/schedule_events/:event/:duration", (req, res) => {
 
           let time_slot_end = moment(results[i].time_slot_end, "HH:mm");
 
-          let compare = l >= time_slot_start && l < time_slot_end;
+          let diffDuration =
+            time_slot_start > l
+              ? moment.duration(time_slot_start.diff(l))
+              : moment.duration(l.diff(time_slot_start));
+
+          let diffMin = diffDuration.as("minutes");
+
+          let compare =
+            (l >= time_slot_start && l < time_slot_end) || diffMin < duration;
 
           return compare;
         });
@@ -405,16 +421,18 @@ app.get("*/api/schedule_events/:event/:duration", (req, res) => {
 
       console.log("Booked slots: ", bookedTimeSlots);
 
-      await Promise.all(events).then((rs) => {
-        console.log("Result of Avail: ", availableTimeSlots);
+      await Promise.all(events)
+        .then((rs) => {
+          console.log("Result of Avail: ", availableTimeSlots);
 
-        if (bookedTimeSlots.length > 0 && availableTimeSlots.length === 0) {
-          res.send({ disableDate: true });
-        }
+          if (bookedTimeSlots.length > 0 && availableTimeSlots.length === 0) {
+            res.send({ disableDate: true });
+          }
 
-        res.send({ availableTimeSlots });
-        //   res.send("Retrieved Scheduled Events Successfully !!!");
-      });
+          res.send({ availableTimeSlots });
+          //   res.send("Retrieved Scheduled Events Successfully !!!");
+        })
+        .catch((err) => console.log);
     }
   });
 });
