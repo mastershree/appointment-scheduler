@@ -45,7 +45,7 @@ const Scheduler = (props) => {
   let path = "/appointments/shrikant-gawas-bookings/";
 */
   return (
-    <div className="main">
+    <div className="scheduler-wrapper">
       <Container style={{ margin: "10px 10px" }}>
         <h3>{loggedUser.name}</h3>
         <p>
@@ -54,7 +54,8 @@ const Scheduler = (props) => {
         </p>
         <Card style={{ width: "24rem", border: "none" }}>
           <ul>
-            {eventTypes.length > 0 &&
+            {eventTypes &&
+              eventTypes.length > 0 &&
               eventTypes.map((et) => (
                 <div key={et.id}>
                   <hr />

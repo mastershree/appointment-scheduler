@@ -1,0 +1,50 @@
+
+
+--
+-- Table structure for table users
+--
+
+CREATE TABLE users (
+  email varchar(50) NOT NULL primary key,
+  name varchar(20) CHARACTER SET latin1 NOT NULL,
+  password varchar(80) CHARACTER SET latin1 NOT NULL,
+  createdAt timestamp NOT NULL DEFAULT current_timestamp()
+) 
+
+
+--
+-- Table structure for table EventTypes
+--
+
+
+CREATE TABLE EventTypes (
+  id int(11) AUTO_INCREMENT primary key,
+  title varchar(50) NOT NULL,
+  durationMins int(11) NOT NULL,
+  createdBy varchar(50) NOT NULL,
+CONSTRAINT EventTypes_users_fk FOREIGN KEY (createdBy) REFERENCES users (email)
+) 
+
+
+
+--
+-- Table structure for table ScheduledEvents
+--
+
+CREATE TABLE ScheduledEvents (
+ id int(11) AUTO_INCREMENT primary key,
+  event int(11) NOT NULL,
+  date date NOT NULL,
+  time_slot_start varchar(20) NOT NULL,
+  time_slot_end varchar(20) NOT NULL,
+  first_name varchar(20) NOT NULL,
+  last_name varchar(20) NOT NULL,
+  email_address varchar(30) NOT NULL,
+  scheduled_at timestamp NOT NULL DEFAULT current_timestamp(),
+ CONSTRAINT ScheduledEvents_EventTypes_fk FOREIGN KEY (event) REFERENCES EventTypes (id)
+) 
+
+
+
+
+

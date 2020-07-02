@@ -97,8 +97,8 @@ class Paginator extends Component {
       console.log("Paginator:", displayData);
     }
     return (
-      <>
-        <div>
+      <div className="paginator-container">
+        <div className="paginator-content">
           {this.state.displayData.length > 0
             ? this.state.displayData.map((evt, index) => (
                 <Card
@@ -126,12 +126,14 @@ class Paginator extends Component {
               ))
             : ""}
         </div>
-        <ButtonGroup>
-          <Button onClick={this.next}>Next</Button>
-          {this.buttons.length > 0 && this.buttons.map((a) => a)}
-          <Button onClick={this.previous}>Previous</Button>
-        </ButtonGroup>
-      </>
+        <div className="paginator">
+          <ButtonGroup>
+            <Button onClick={this.next}>Next</Button>
+            {this.buttons.length > 0 && this.buttons.map((a) => a)}
+            <Button onClick={this.previous}>Previous</Button>
+          </ButtonGroup>
+        </div>
+      </div>
     );
   }
 }

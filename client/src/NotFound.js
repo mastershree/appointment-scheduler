@@ -1,5 +1,13 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
-const Notfound = () => <h1>Not found</h1>;
+const mapStateToProps = (state) => {
+  return { isUserLogged: state.isUserLogged };
+};
 
-export default Notfound;
+const Notfound = (props) => (
+  <>{props.isUserLogged ? "" : <Redirect to="/" />}</>
+);
+
+export default connect(mapStateToProps)(Notfound);

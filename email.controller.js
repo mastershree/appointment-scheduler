@@ -35,38 +35,50 @@ export const usePasswordHashToMakeToken = ({ email, password, createdAt }) => {
 
 export const sendPasswordResetEmail = (req, res) => {
   const { email } = req.params;
+  console.log("email id received", email);
   let user, token, url, emailTemplate;
-  try {
-    let sql =
-      "SELECT name, email, password, createdAt FROM users where email='" +
-      email +
-      "';";
-    con.query(sql, (err, results) => {
-      if (err) throw err;
-      user = { name: results[0].name, email: results[0].email };
+
+  let sql =
+    "SELECT name, email, password, createdAt FROM users where email='" +
+    email +
+    "';";
+  con.query(sql, (err, results) => {
+    if (err) res.status(500);
+    console.log(results);
+    if (results.length > 0) {
+      user = results[0];
       console.log(user);
-      token = usePasswordHashToMakeToken(user);
-      url = getPasswordResetURL(user, token);
-      emailTemplate = resetPasswordTemplate(user, url);
+      token = usePasswordHashToMakeToken({
+        email: user.email,
+        password: user.password,
+        createdAt: user.createdAt,
+      });
+
+      url = getPasswordResetURL({ name: user.name, email: user.email }, token);
+      emailTemplate = resetPasswordTemplate(
+        { name: user.name, email: user.email },
+        url
+      );
       console.log("EmailTemplate ", emailTemplate.to);
       transporter.sendMail(emailTemplate, (err, info) => {
         if (err) {
           console.log(err);
-          res.status(500).json("Error sending email");
+          res.status(500);
         } else {
+          res.send("Email Sent");
           console.log(`** Email sent **`, info);
         }
       });
-    });
-  } catch (err) {
-    res.status(404).json("No user with that email");
-  }
+    } else {
+      res.status(404);
+    }
+  });
 };
 
 export const receiveNewPassword = (req, res) => {
   const { email, token } = req.params;
   const { password } = req.body;
-  console.log(req.body);
+  console.log("received token:", token);
   let user, secret, payload;
   try {
     let sql =
@@ -78,7 +90,15 @@ export const receiveNewPassword = (req, res) => {
       user = results[0];
       console.log(user);
       secret = user.password + "-" + user.createdAt;
-      payload = jwt.decode(token, secret);
+      payload = jwt.verify(token, secret, function (err, decoded) {
+        if (err) {
+          return res
+            .status(400)
+            .send("Token expired. Kindly make request for new link.");
+        } else {
+          return decoded;
+        }
+      });
 
       if (payload.email === user.email) {
         bcrypt.genSalt(10, function (err, salt) {
@@ -95,6 +115,7 @@ export const receiveNewPassword = (req, res) => {
       }
     });
   } catch (err) {
+    console.log("Error:", err);
     res.status(404).json("No user with that email");
   }
 };

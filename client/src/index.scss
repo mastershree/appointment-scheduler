@@ -1,10 +1,30 @@
+html {
+  margin: 0;
+  height: "100%";
+}
+
 body {
   margin: 0;
+  height: "100%";
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  background: #a8c0ff; /* fallback for old browsers */
+  /*
+  background: -webkit-linear-gradient(
+    to top,
+    #3f2b96,
+    #a8c0ff
+  ); //Chrome 10-25, Safari 5.1-6
+  background: linear-gradient(
+    to top,
+    #3f2b96,
+    #a8c0ff
+  ); //W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+
+  */
 }
 
 code {
@@ -30,30 +50,16 @@ ul {
   list-style: none;
 }
 
-.main {
-  margin: 10px;
-  height: 96vh;
+.scheduler-wrapper {
+  margin: 20px auto;
+  width: 80%;
+  height: 80vh;
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   border-radius: 0.2rem;
   box-shadow: 2px 2px 4px #000;
-}
-
-.active {
-  color: coral;
-  border-bottom-style: solid;
-  border-bottom-color: #00ced1;
-
-  &.pane {
-    color: black;
-    border: none;
-  }
-}
-
-.event_cards {
-  border-top: 4px solid #6a5acd;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .btn-link {
@@ -79,5 +85,417 @@ ul {
 
   * {
     color: #8a2be2 !important;
+  }
+}
+
+.form-control {
+  width: 50%;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.control-error {
+  border: 1px solid red;
+}
+
+// schedule
+
+.schedule-wrapper {
+  width: 80%;
+  height: 80%;
+  margin: 50px auto;
+
+  .tab-container {
+    margin-top: 20px;
+    background-color: #f5f5f5;
+    border-radius: 0.5rem;
+    border: 3px solid plum;
+  }
+
+  .active {
+    color: coral;
+    border-bottom-style: solid;
+    border-bottom-color: #00ced1;
+  }
+
+  .pane {
+    width: 100%;
+
+    border-bottom: none;
+    padding-bottom: 3rem;
+    color: black;
+  }
+
+  .cards-group {
+    margin-top: 2rem;
+    padding: 1rem;
+    .event_cards {
+      border-top: 4px solid #6a5acd;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+  }
+}
+
+.login-container {
+  margin: 2rem auto;
+  width: 60vh;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  border-radius: 0.2rem;
+  box-shadow: 2px 2px 4px #000;
+  background: -webkit-linear-gradient(
+    to top,
+    #3f2b96,
+    #a8c0ff
+  ); //Chrome 10-25, Safari 5.1-6
+  background: linear-gradient(
+    to top,
+    #3f2b96,
+    #a8c0ff
+  ); //W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+
+}
+
+.login {
+  width: 100%;
+  height: 70%;
+  background-color: white;
+  color: rgb(67, 211, 132);
+  display: flex;
+  align-items: "center";
+
+  .link {
+    margin-left: 2rem;
+  }
+
+  input {
+    width: 100%;
+    border-color: rgb(154, 211, 147);
+    color: rgb(67, 211, 132);
+  }
+
+  .submit-button {
+    background-color: white;
+    color: rgb(67, 211, 132);
+    border-color: rgb(154, 211, 147);
+
+    &:focus {
+      background-color: rgb(67, 211, 132);
+      color: white;
+    }
+
+    &:enabled {
+      background-color: rgb(67, 211, 132);
+      color: white;
+    }
+
+    &:active {
+      background-color: rgb(67, 211, 132);
+      color: white;
+    }
+  }
+
+  .form-error {
+    margin-top: 2rem;
+    padding-top: 0.6rem;
+    padding-left: 2rem;
+    border: 1px solid #32cd32;
+    color: #ff7f50;
+    box-sizing: border-box;
+
+    span {
+      color: #4b0082;
+    }
+  }
+}
+
+// resetpassword - start
+
+.wrapper-reset-password {
+  margin-top: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+  box-sizing: border-box;
+
+  .reset-password {
+    width: 60vh;
+    height: 70vh;
+
+    text-align: center;
+    background-color: #6495ed;
+    color: #800080;
+
+    border-radius: 0.2rem;
+    box-shadow: 2px 2px 4px #000;
+
+    hr {
+      background-color: wheat;
+    }
+
+    .link {
+      color: #191970;
+    }
+
+    .card {
+      width: 100%;
+      height: 70%;
+      margin-top: 5rem;
+
+      background-color: inherit;
+      border: none;
+      border-radius: none;
+      color: inherit;
+
+      .form {
+        margin-bottom: 3rem;
+      }
+
+      input {
+        margin: 0 2rem;
+        width: 80%;
+        margin-bottom: 2rem;
+        border-color: rgb(154, 211, 147);
+        color: rgb(67, 211, 132);
+      }
+
+      .submit-button {
+        margin-right: 2.4rem;
+        background-color: white;
+        color: rgb(67, 211, 132);
+        border-color: rgb(154, 211, 147);
+
+        &:focus {
+          background-color: rgb(67, 211, 132);
+          color: white;
+        }
+
+        &:enabled {
+          background-color: rgb(67, 211, 132);
+          color: white;
+        }
+
+        &:active {
+          background-color: rgb(67, 211, 132);
+          color: white;
+        }
+      }
+    }
+  }
+} // resetpassword - end
+
+// SignUp
+.wrapper-signup {
+  margin: 3rem auto;
+  width: 60vh;
+  height: 90vh;
+  display: flex;
+  align-items: flex-start;
+
+  border-radius: 0.2rem;
+  box-shadow: 2px 2px 4px #000;
+
+  .card {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    color: rgb(67, 211, 132);
+    display: flex;
+    align-items: "center";
+
+    .link {
+      margin-left: 2rem;
+    }
+
+    input {
+      width: 100%;
+      border-color: rgb(154, 211, 147);
+      color: rgb(67, 211, 132);
+    }
+
+    .submit-button {
+      margin-top: 1rem;
+      background-color: white;
+      color: rgb(67, 211, 132);
+      border-color: rgb(154, 211, 147);
+
+      &:focus {
+        background-color: rgb(67, 211, 132);
+        color: white;
+      }
+
+      &:enabled {
+        background-color: rgb(67, 211, 132);
+        color: white;
+      }
+
+      &:active {
+        background-color: rgb(67, 211, 132);
+        color: white;
+      }
+    }
+
+    .form-error {
+      margin-top: 0.5rem;
+      padding: 0 0.5rem;
+      border: 1px solid #32cd32;
+      color: #ff7f50;
+    }
+  }
+}
+
+// update password
+
+.wrapper-update-password {
+  margin: 3rem auto;
+  width: 60vh;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border-radius: 0.2rem;
+  box-shadow: 2px 2px 4px #000;
+
+  .title {
+    margin: 10px 0;
+    padding: 10px 110px;
+    border: 1px solid brown;
+    text-align: center;
+  }
+
+  .card {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 80%;
+    height: 50%;
+    background-color: white;
+    color: rgb(67, 211, 132);
+    display: flex;
+    align-items: "center";
+    justify-content: center;
+    .link {
+      margin-left: 2rem;
+    }
+
+    input {
+      width: 100%;
+      border-color: rgb(154, 211, 147);
+      color: rgb(67, 211, 132);
+    }
+
+    .submit-button {
+      margin-top: 1rem;
+      background-color: white;
+      color: rgb(67, 211, 132);
+      border-color: rgb(154, 211, 147);
+
+      &:focus {
+        background-color: rgb(67, 211, 132);
+        color: white;
+      }
+
+      &:enabled {
+        background-color: rgb(67, 211, 132);
+        color: white;
+      }
+
+      &:active {
+        background-color: rgb(67, 211, 132);
+        color: white;
+      }
+    }
+
+    .form-error {
+      margin-top: 0.5rem;
+      padding: 0 0.5rem;
+      border: 1px solid #32cd32;
+      color: #ff7f50;
+    }
+  }
+  .form-success {
+    color: green;
+    margin-top: 5rem;
+    padding: 2rem;
+    text-align: center;
+    border-radius: 0.2rem;
+    border: 1px solid grey;
+  }
+}
+
+.paginator-container {
+  .paginator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.scheduler-panel-wrapper {
+  margin: 20px auto;
+  width: 80%;
+  height: 85vh;
+  border-radius: 0.5rem;
+  background-color: white;
+  box-sizing: border-box;
+
+  .confirmed {
+    margin: 30px auto;
+    padding-top: 50px;
+    width: 80%;
+    height: 50%;
+
+    .schedule-again-btn {
+      border: none;
+    }
+  }
+
+  .column-first {
+    //   background: "lightgrey",
+
+    margin-left: 2rem;
+    border-right: 2px solid #e6e6fa;
+    width: 50%;
+    height: 85vh;
+    display: flex;
+    justify-content: left;
+  }
+
+  .column-second {
+    color: #f0fff0;
+    background-color: rgb(170, 151, 172);
+    padding: 10px;
+    display: flex;
+    justify-content: flex-start;
+
+    .form {
+      margin-top: 2rem;
+      margin-left: 60px;
+      .input {
+        width: 100%;
+      }
+      .button {
+        display: block;
+        margin: 30px auto;
+      }
+    }
+  }
+
+  .list {
+    width: 100%;
+    height: 534px;
+    overflow: auto;
+
+    li {
+      margin: 0.5rem;
+      padding: 1rem;
+      text-align: center;
+      color: purple;
+      background-color: honeydew;
+      border: 1px solid #008080;
+      border-radius: 4px;
+    }
   }
 }

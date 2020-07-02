@@ -85,7 +85,7 @@ class Schedule extends Component {
   setSubActiveTab = (value) => this.setState({ subActiveTab: value });
 
   getEventTypesFromAPI = () => {
-    console.log("Api called!!");
+    console.log("user:", this.user);
 
     axios
       .get(`/api/event_types/${this.user}`)
@@ -133,12 +133,12 @@ class Schedule extends Component {
     //  console.log(this.state.event_types);
 
     return (
-      <div>
-        <div style={{ margin: "50px 50px 50px 150px" }}>
+      <div className="schedule-wrapper">
+        <div>
           <span style={{ fontFamily: "Roboto Condensed", fontSize: "2rem" }}>
             My Schedule
           </span>
-          <div style={{ marginTop: "20px", backgroundColor: "#F5F5F5" }}>
+          <div className="tab-container">
             <Nav tabs>
               <NavItem className={this.state.activeTab === 1 ? "active" : ""}>
                 <NavLink onClick={() => this.setActiveTab(1)}>
@@ -157,21 +157,24 @@ class Schedule extends Component {
                   <Col sm="12">
                     <div
                       style={{
+                        paddingLeft: "1rem",
                         display: "flex",
                         justifyContent: "space-between",
                       }}
                     >
-                      <p style={{ marginLeft: "1rem" }}>
-                        My Link <br />
-                        <Link to={this.cust}>{this.cust}</Link>
-                      </p>
-
+                      {this.state.event_types &&
+                        this.state.event_types.length > 0 && (
+                          <p style={{ marginLeft: "1rem" }}>
+                            My Link <br />
+                            <Link to={this.cust}>{this.cust}</Link>
+                          </p>
+                        )}
                       <Link
                         to={{
                           pathname: "/event_type/create",
                           user: this.user,
                         }}
-                        style={{ textDecoration: "none" }}
+                        style={{ marginLeft: "1rem", textDecoration: "none" }}
                       >
                         <Button
                           outline
@@ -183,8 +186,9 @@ class Schedule extends Component {
                       </Link>
                     </div>
                     <hr />
-                    <CardDeck style={{ marginTop: "2rem" }}>
-                      {this.state.event_types.length > 0
+                    <CardDeck className="cards-group">
+                      {this.state.event_types &&
+                      this.state.event_types.length > 0
                         ? this.state.event_types.map((event, index) => (
                             <Card body className="event_cards" key={index}>
                               <CardText>{event.title}</CardText>

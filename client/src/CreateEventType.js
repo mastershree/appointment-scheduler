@@ -9,6 +9,7 @@ import {
   Col,
   Card,
   CardFooter,
+  FormFeedback,
 } from "reactstrap";
 
 class CreateEventType extends Component {
@@ -17,17 +18,25 @@ class CreateEventType extends Component {
     console.log(this.props.location);
     //   this.props = { event: { title: "Phone Call", duration: 45 } };
     this.state = {
-      title: "",
+      title: {
+        placeholder: "Please enter the event name",
+        value: "",
+        touched: 0,
+      },
       duration: 0,
       user: this.props.location.user,
+      errMsg: "",
     };
   }
+
   changeHandle = (e) => {
-    let { value, name } = e.target;
+    let { value } = e.target;
+    let { title, errMsg } = this.state;
+    title.value = value;
+    title.touched = 1;
+    errMsg = "";
 
-    this.setState({ [name]: value });
-
-    console.log();
+    this.setState({ title, errMsg });
   };
 
   setDuration = (e, value) => {
@@ -39,9 +48,11 @@ class CreateEventType extends Component {
     e.preventDefault();
     console.log(this.state);
 
+    let { title } = this.state;
+
     axios
       .post("api/event_type/create/", {
-        title: this.state.title,
+        title: title.value,
         duration: this.state.duration,
         user: this.state.user,
       })
@@ -49,14 +60,22 @@ class CreateEventType extends Component {
         //      console.log(res);
         if (res.status === 200) {
           console.log(res);
+          this.props.history.goBack();
         }
       })
-      .catch((err) => console.log);
+      .catch((err) => {
+        console.log(err.response);
+        title.value = "";
+
+        this.setState({ title, errMsg: err.response.data });
+      });
   };
 
   render() {
     // let event = this.props.location.event;
     // console.log(props.history);
+
+    const { title } = this.state;
 
     let duration_range = [15, 30, 45, 60];
 
@@ -85,11 +104,13 @@ class CreateEventType extends Component {
               <Label for="Title" style={{ marginBottom: "1rem" }}>
                 Event Name*
               </Label>
-              <Col sm={6} style={{ paddingLeft: 0 }}>
+              <Col sm={10} style={{ paddingLeft: 0 }}>
                 <Input
                   type="text"
                   name="title"
                   id="title"
+                  placeholder={title.placeholder}
+                  value={title.value}
                   onChange={this.changeHandle}
                   required
                   style={{
@@ -98,6 +119,11 @@ class CreateEventType extends Component {
                     borderWidth: "2px",
                   }}
                 />
+                <FormFeedback
+                  className={this.state.errMsg.length > 0 ? "d-block" : ""}
+                >
+                  {this.state.errMsg}
+                </FormFeedback>
               </Col>
             </FormGroup>
 
@@ -178,11 +204,9 @@ class CreateEventType extends Component {
                   id="duration"
                   name="duration"
                   onChange={this.changeHandle}
-                  style={{ height: "2rem" }}
+                  style={{ height: "2rem", width: "4rem" }}
                 />
-                <small className="text-muted" style={{ display: "block" }}>
-                  custom min
-                </small>
+                <small style={{ display: "block" }}>custom min</small>
               </Card>
             </div>
             <br />
@@ -203,7 +227,11 @@ class CreateEventType extends Component {
                 Cancel
               </Button>
 
-              <Button color="primary" onClick={this.save}>
+              <Button
+                color="primary"
+                onClick={this.save}
+                disabled={this.state.duration === 0 || title.value === ""}
+              >
                 Save
               </Button>
             </FormGroup>

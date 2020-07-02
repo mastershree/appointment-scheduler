@@ -51,6 +51,7 @@ const auth = (state = initialState, action) => {
     case "LOGOUT":
       console.log("Hey");
       return {
+        isUserLogged: false,
         loggedUser: { name: "", email: "" },
       };
 

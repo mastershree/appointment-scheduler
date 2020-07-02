@@ -16,6 +16,7 @@ import {
   NavbarText,
 } from "reactstrap";
 
+import CustomRoute from "./CustomRoute";
 import Login from "./Login";
 import Signup from "./Signup";
 import ResetPassword from "./ResetPassword";
@@ -29,21 +30,22 @@ import Notfound from "./NotFound";
 import "./App.css";
 import Scheduler from "./Scheduler";
 import SchedulerPanel from "./SchedulerPanel";
-//import { SIGNUP } from "./reducers";
-const CustomRoute = ({ isUserLogged, MyComponent, ...rest }) => {
-  if (isUserLogged) {
-    console.log(rest);
-    return <Route render={MyComponent} {...rest} />;
-  } else {
-    return <Redirect to="/" />;
-  }
-};
+import { LOGOUT } from "./reducers";
 
 const mapStateToProps = (state) => {
   //let [loggedUser] = state.users.filter((x) => x.isLoggedIn === true);
 
   console.log(state.isUserLogged);
   return { isUserLogged: state.isUserLogged, loggedUser: state.loggedUser };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logOut: () => {
+      // console.log("Set Login flag called");
+      dispatch({ type: LOGOUT });
+    },
+  };
 };
 
 class App extends Component {
@@ -65,7 +67,7 @@ class App extends Component {
 
     console.log(customAppointmentLink);
     return (
-      <>
+      <div>
         {this.props.isUserLogged ? (
           <Navbar
             color="dark"
@@ -95,7 +97,7 @@ class App extends Component {
                         marginRight: "0.5rem",
                       }}
                     >
-                      {this.props.loggedUser.name.charAt(0)}
+                      {name.charAt(0)}
                     </span>
                     <span
                       style={{
@@ -104,11 +106,11 @@ class App extends Component {
                         fontWeight: "bold",
                       }}
                     >
-                      {this.name}
+                      {name}
                     </span>
                   </DropdownToggle>
                   <DropdownMenu right>
-                    <DropdownItem onClick={this.props.logout}>
+                    <DropdownItem onClick={this.props.logOut}>
                       Logout
                     </DropdownItem>
                   </DropdownMenu>
@@ -126,16 +128,12 @@ class App extends Component {
             <CustomRoute
               exact
               path="/schedule"
-              isUserLogged={this.props.isUserLogged}
-              MyComponent={(props) => (
-                <Schedule
-                  customAppointmentLink={customAppointmentLink}
-                  {...props}
-                />
+              render={() => (
+                <Schedule customAppointmentLink={customAppointmentLink} />
               )}
             />
 
-            <Route
+            <CustomRoute
               exact
               //     isUserLogged={this.props.isUserLogged}
               path={customAppointmentLink}
@@ -143,26 +141,27 @@ class App extends Component {
               component={Scheduler}
             />
 
-            <Route
+            <CustomRoute
               exact
               path={`${customAppointmentLink}/panel`}
               component={SchedulerPanel}
             />
 
-            <Route
+            <CustomRoute
               exact
               path="/event_type/edit/"
               component={EditEventType}
               //render={(props) => <EditEventType {...props} />}
             />
 
-            <Route
+            <CustomRoute
               exact
               path="/event_type/create/"
               component={CreateEventType}
             />
 
             <Route exact path="/resetpassword" component={ResetPassword} />
+
             <Route
               exact
               path="/password/reset/:email/:token"
@@ -176,9 +175,9 @@ class App extends Component {
             <Route component={Notfound} />
           </Switch>
         </Router>
-      </>
+      </div>
     );
   }
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -14,9 +14,24 @@ import "./index.scss";
 
 //import "./fontawesome";
 
-const store = createStore(rootReducer, initialState);
+let init = initialState;
 
-//const history = createBrowserHistory();
+const persistedState = localStorage.getItem("appointment-scheduler");
+
+if (persistedState) {
+  init = JSON.parse(persistedState);
+}
+
+const store = createStore(rootReducer, init);
+
+//console.log(JSON.stringify(store.getState()));
+
+store.subscribe(() => {
+  localStorage.setItem(
+    "appointment-scheduler",
+    JSON.stringify(store.getState())
+  );
+});
 
 ReactDOM.render(
   <Provider store={store}>
