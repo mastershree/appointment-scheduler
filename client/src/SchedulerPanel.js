@@ -119,16 +119,14 @@ class SchedularPanel extends Component {
       },
       scheduleAgain: false,
     };
-
-    this.firstNameRef = React.createRef();
   }
 
-  componentDidMount() {
+  fetchAvailableSlots = (date) => {
     axios
       .get(
         `api/schedule_events/${this.event.id}/${
           this.event.duration
-        }?date=${this.state.selectDate.toISOString()}`
+        }?date=${date.toISOString()}`
       )
       .then((res) => {
         console.log(res.status);
@@ -143,15 +141,16 @@ class SchedularPanel extends Component {
           this.setState((state) => {
             return {
               ...state,
-              disableDates: [
-                ...state.disableDates,
-                state.selectDate.toLocaleDateString(),
-              ],
+              disableDates: [...state.disableDates, date.toLocaleDateString()],
             };
           });
         }
       })
       .catch((err) => console.log);
+  };
+
+  componentDidMount() {
+    this.fetchAvailableSlots(this.state.selectDate);
   }
 
   disableDates = ({ date }) => {
@@ -170,34 +169,7 @@ class SchedularPanel extends Component {
 
   onChangeDate = (date) => {
     //    console.log(date.toLocaleDateString());
-
-    axios
-      .get(
-        `api/schedule_events/${this.event.id}/${
-          this.event.duration
-        }?date=${date.toISOString()}`
-      )
-      .then((res) => {
-        console.log(res.status);
-        if (res.status === 200 && res.data.availableTimeSlots.length > 0) {
-          this.setState({
-            selectDate: date,
-            availableTimeSlots: res.data.availableTimeSlots,
-          });
-          console.log(this.state.availableTimeSlots);
-        }
-
-        if (res.status === 200 && res.data.disableDate === true) {
-          this.setState((state) => {
-            return {
-              ...state,
-              selectDate: date,
-              disableDates: [...state.disableDates, date.toLocaleDateString()],
-            };
-          });
-        }
-      })
-      .catch((err) => console.log);
+    this.fetchAvailableSlots(date);
   };
 
   onClickHandler = (e, slot) => {
@@ -282,14 +254,17 @@ class SchedularPanel extends Component {
     selectedSlotEnd = null;
     selectDate = new Date();
 
-    this.setState({
-      form,
-      selectDate,
-      selectedSlotStart,
-      selectedSlotEnd,
-      formControls,
-      scheduleAgain,
-    });
+    this.setState(
+      {
+        form,
+        selectDate,
+        selectedSlotStart,
+        selectedSlotEnd,
+        formControls,
+        scheduleAgain,
+      },
+      () => this.fetchAvailableSlots(this.state.selectDate)
+    );
   };
 
   scheduleEvent = (event) => {
