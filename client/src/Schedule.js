@@ -88,7 +88,9 @@ class Schedule extends Component {
     console.log("user:", this.user);
 
     axios
-      .get(`/api/event_types/${this.user}`)
+      .get(
+        `https://appointment-scheduler-react.herokuapp.com/api/event_types/${this.user}`
+      )
       .then((res) => {
         console.log(res.status);
         if (res.status === 200 && res.data.length > 0) {
@@ -105,7 +107,9 @@ class Schedule extends Component {
     console.log("Api called!!");
 
     axios
-      .get(`/api/schedule_events/${this.user}`)
+      .get(
+        `https://appointment-scheduler-react.herokuapp.com/api/schedule_events/${this.user}`
+      )
       .then((res) => {
         console.log(res.status);
         if (res.status === 200) {
