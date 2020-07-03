@@ -64,6 +64,10 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
 
+// Password reset
+
+app.use("/reset_password", emailRouter);
+
 /*
 app.get("/app*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
@@ -226,10 +230,6 @@ app.delete("*/api/event_type/delete/:user/:title", (req, res) => {
     }
   });
 });
-
-// Password reset
-
-app.use("/reset_password", emailRouter);
 
 // Get Schedule Events of past & future 30 days of user
 
