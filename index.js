@@ -4,6 +4,15 @@ import bcrypt, { compare } from "bcryptjs";
 import cors from "cors";
 import moment from "moment";
 import path from "path";
+import * as emailController from "./email.controller";
+
+const emailRouter = express.Router();
+
+emailRouter.route("/user/:email").post(emailController.sendPasswordResetEmail);
+
+emailRouter
+  .route("/receive_new_password/:email/:token")
+  .post(emailController.receiveNewPassword);
 
 const app = express();
 
