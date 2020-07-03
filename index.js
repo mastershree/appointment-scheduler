@@ -18,7 +18,6 @@ const app = express();
 
 app.use(cors()); // Use this after the variable declaration
 import mysql from "mysql";
-import { emailRouter } from "./email.restRouter";
 
 //create database connection
 
