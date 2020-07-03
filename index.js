@@ -6,14 +6,6 @@ import moment from "moment";
 import path from "path";
 import * as emailController from "./email.controller";
 
-const emailRouter = express.Router();
-
-emailRouter.route("/user/:email").post(emailController.sendPasswordResetEmail);
-
-emailRouter
-  .route("/receive_new_password/:email/:token")
-  .post(emailController.receiveNewPassword);
-
 const app = express();
 
 app.use(cors()); // Use this after the variable declaration
@@ -74,7 +66,17 @@ app.get("*", (req, res) => {
 
 // Password reset
 
-app.use("/reset_password", emailRouter);
+// app.use("/reset_password", emailRouter);
+
+app.post(
+  "*/reset_password/user/:email",
+  emailController.sendPasswordResetEmail
+);
+
+app.post(
+  "*/reset_password/receive_new_password/:email/:token",
+  emailController.receiveNewPassword
+);
 
 /*
 app.get("/app*", (req, res) => {
