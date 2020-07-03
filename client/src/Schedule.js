@@ -88,7 +88,7 @@ class Schedule extends Component {
     console.log("user:", this.user);
 
     axios
-      .get(`/api/event_types/${this.user}`)
+      .get(`api/event_types/${this.user}`)
       .then((res) => {
         console.log(res.status);
         if (res.status === 200 && res.data.length > 0) {
