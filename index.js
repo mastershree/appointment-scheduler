@@ -229,7 +229,7 @@ app.delete("*/api/event_type/delete/:user/:title", (req, res) => {
 
 // Password reset
 
-app.use("/reset_password/*", emailRouter);
+app.use("*reset_password*", emailRouter);
 
 // Get Schedule Events of past & future 30 days of user
 
