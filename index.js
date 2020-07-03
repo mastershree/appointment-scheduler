@@ -4,6 +4,7 @@ import bcrypt, { compare } from "bcryptjs";
 import cors from "cors";
 import moment from "moment";
 import path from "path";
+import * as emailController from "./email.controller";
 
 const app = express();
 
@@ -66,7 +67,15 @@ app.get("/", (req, res) => {
 
 // Password reset
 
-app.use("*/reset_password/user/:email", emailRouter);
+app.post(
+  "*/reset_password/user/:email",
+  emailController.sendPasswordResetEmail
+);
+
+app.post(
+  "*/reset_password/receive_new_password/:email/:token",
+  emailController.receiveNewPassword
+);
 
 /*
 app.get("/app*", (req, res) => {
