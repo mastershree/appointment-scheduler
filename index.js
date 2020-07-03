@@ -60,7 +60,7 @@ console.log(__dirname);
 
 app.use(express.static("client/build"));
 
-app.get("*", (req, res) => {
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
 
@@ -489,7 +489,7 @@ app.post("*/api/schedule_event/:eventId", (req, res) => {
 });
 
 //Server listening
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`Our app is running on port ${PORT}`);
 });

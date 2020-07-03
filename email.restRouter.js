@@ -3,8 +3,10 @@ import * as emailController from "./email.controller";
 
 export const emailRouter = express.Router();
 
-emailRouter.route("*").post(emailController.sendPasswordResetEmail);
+emailRouter.post(emailController.sendPasswordResetEmail);
 
+/*
 emailRouter
   .route("/receive_new_password/:email/:token")
   .post(emailController.receiveNewPassword);
+*/
