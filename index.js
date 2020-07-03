@@ -66,7 +66,7 @@ app.get("*", (req, res) => {
 
 // Password reset
 
-app.use("*/reset_password", emailRouter);
+app.use("/reset_password", emailRouter);
 
 /*
 app.get("/app*", (req, res) => {
