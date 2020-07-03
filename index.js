@@ -4,7 +4,6 @@ import bcrypt, { compare } from "bcryptjs";
 import cors from "cors";
 import moment from "moment";
 import path from "path";
-import * as emailController from "./email.controller";
 
 const app = express();
 
@@ -61,21 +60,13 @@ console.log(__dirname);
 
 app.use(express.static("client/build"));
 
-app.get("/", (req, res) => {
+app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
 
 // Password reset
 
-app.post(
-  "*/reset_password/user/:email",
-  emailController.sendPasswordResetEmail
-);
-
-app.post(
-  "*/reset_password/receive_new_password/:email/:token",
-  emailController.receiveNewPassword
-);
+app.use("*/reset_password", emailRouter);
 
 /*
 app.get("/app*", (req, res) => {
@@ -498,7 +489,7 @@ app.post("*/api/schedule_event/:eventId", (req, res) => {
 });
 
 //Server listening
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Our app is running on port ${PORT}`);
 });

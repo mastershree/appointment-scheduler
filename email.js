@@ -4,8 +4,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
   auth: {
+    type: "login", // default
     user: process.env.EMAIL_LOGIN,
     pass: process.env.EMAIL_PASSWORD,
   },
