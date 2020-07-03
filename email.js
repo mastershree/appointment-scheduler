@@ -7,8 +7,8 @@ export const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   auth: {
     type: "login", // default
-    user: process.env.EMAIL_LOGIN,
-    pass: process.env.EMAIL_PASSWORD,
+    user: "mastergawas@gmail.com",
+    pass: "Master@420",
   },
 });
 
