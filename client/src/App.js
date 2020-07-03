@@ -164,7 +164,7 @@ class App extends Component {
 
             <Route
               exact
-              path="/password/reset/:email/:token"
+              path="*/password/reset/:email/:token"
               render={({ match }) => (
                 <UpdatePassword
                   email={match.params.email}
