@@ -154,7 +154,7 @@ class Login extends Component {
     return (
       <>
         {this.props.isUserLogged ? (
-          <Redirect to="/app/schedule" />
+          <Redirect to="/schedule" />
         ) : (
           <div className="wrapper">
             <div className="login-container">
