@@ -80,7 +80,7 @@ app.use(function (req, res, next) {
 });
 */
 
-app.post("/auth/login", (req, res) => {
+app.post("*/auth/login", (req, res) => {
   let data = { email: req.body.email, password: req.body.password };
   let user;
   let sql =
@@ -397,6 +397,7 @@ app.get("*/api/schedule_events/:event/:duration", (req, res) => {
       while (i < resultLen) {
         let bookSlot = timeSlot.filter((e) => {
           let l = moment(e, "HH:mm");
+
           let time_slot_start = moment(results[i].time_slot_start, "HH:mm");
 
           let time_slot_end = moment(results[i].time_slot_end, "HH:mm");
