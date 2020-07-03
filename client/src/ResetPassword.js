@@ -49,7 +49,7 @@ class ResetPassword extends Component {
     e.preventDefault();
     const { email } = this.state;
     axios
-      .post(`/reset_password/user/${email.value}`)
+      .post(`reset_password/user/${email.value}`)
       .then((res) =>
         this.setState({
           submitted: true,
