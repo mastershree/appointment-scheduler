@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap");
+
 html {
   margin: 0;
   height: "100%";
@@ -105,6 +107,11 @@ ul {
   height: 80%;
   margin: 50px auto;
 
+  .title {
+    font-family: "Roboto Condensed";
+    font-size: 2rem;
+  }
+
   .tab-container {
     margin-top: 20px;
     background-color: #f5f5f5;
@@ -124,6 +131,21 @@ ul {
     border-bottom: none;
     padding-bottom: 3rem;
     color: black;
+
+    .row {
+      margin-top: 40px;
+    }
+
+    .top-navigation {
+      padding-left: 1rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .card-body {
+      width: 80%;
+      margin: 0 2rem;
+    }
   }
 
   .cards-group {
@@ -430,6 +452,7 @@ ul {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 1rem;
   }
 }
 

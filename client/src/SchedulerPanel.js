@@ -1,6 +1,5 @@
-import React, { Component, useState } from "react";
+import React, { PureComponent } from "react";
 import {
-  Container,
   Row,
   Col,
   Form,
@@ -16,13 +15,12 @@ import axios from "axios";
 //import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 import "./Calendar.css";
-import "./SchedulerPanel.css";
-import { Link } from "react-router-dom";
+
 import validate from "./InputComponents/Validation";
 
 const current_date = new Date();
 
-class SchedularPanel extends Component {
+class SchedularPanel extends PureComponent {
   constructor(props) {
     super(props);
     /*   this.duration = Number(
@@ -170,6 +168,7 @@ class SchedularPanel extends Component {
   onChangeDate = (date) => {
     //    console.log(date.toLocaleDateString());
     this.fetchAvailableSlots(date);
+    this.setState({ selectDate: date });
   };
 
   onClickHandler = (e, slot) => {

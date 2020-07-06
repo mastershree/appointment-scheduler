@@ -261,9 +261,9 @@ app.get("*/api/schedule_events/:user", (req, res) => {
         past: [],
       };
 
-      let select2 = `select e.title, DATE_FORMAT(date, '%W, %d %M %Y') as date, DATE_FORMAT(time_slot_start, '%h:%i %p') time_slot_start, DATE_FORMAT(time_slot_end, '%h:%i %p') time_slot_end, first_name, last_name 
+      let select2 = `select e.title, DATE_FORMAT(date, '%W, %d %M %Y') as date_mod, DATE_FORMAT(time_slot_start, '%h:%i %p') time_slot_start_mod, DATE_FORMAT(time_slot_end, '%h:%i %p') time_slot_end_mod, first_name, last_name 
  from ScheduledEvents s join EventTypes e on s.event=e.id where  event in ${events}
- and date > now()`;
+ and date > now() order by date, time_slot_start`;
 
       console.log(select2);
 
@@ -274,9 +274,9 @@ app.get("*/api/schedule_events/:user", (req, res) => {
           // res.send(results);
           scheduled_events.upcoming = results;
 
-          let select3 = `select e.title, DATE_FORMAT(date, '%W, %d %M %Y') as date, DATE_FORMAT(time_slot_start, '%h:%i %p') time_slot_start, DATE_FORMAT(time_slot_end, '%h:%i %p') time_slot_end, first_name, last_name 
+          let select3 = `select e.title, DATE_FORMAT(date, '%W, %d %M %Y') as date_mod, DATE_FORMAT(time_slot_start, '%h:%i %p') time_slot_start_mod, DATE_FORMAT(time_slot_end, '%h:%i %p') time_slot_end_mod, first_name, last_name 
           from ScheduledEvents s join EventTypes e on s.event=e.id where  event in ${events}
-          and date < now()`;
+          and date < now() order by date desc, time_slot_start desc`;
 
           let query2 = con.query(select3, (err, results) => {
             if (err) res.status(500);

@@ -1,19 +1,10 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-  Link,
-  withRouter,
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { LOGOUT, LOAD_EVENT_TYPES } from "./reducers";
-import Scheduler from "./Scheduler";
-import ShowEventTypes from "./EventType/ShowEventTypes";
-import CreateEventType from "./CreateEventType";
 import Paginator from "./Paginator";
+
 import {
   TabContent,
   TabPane,
@@ -27,8 +18,17 @@ import {
   Button,
   CardDeck,
   CardFooter,
-  ButtonGroup,
 } from "reactstrap";
+
+const marginLeft = { marginLeft: "1rem" };
+
+const navLink = { marginLeft: "1rem", textDecoration: "none" };
+
+const marginRight = { marginRight: "1rem" };
+
+const cardFooter = { backgroundColor: "white" };
+
+const tabContent = { overflow: "auto" };
 
 const mapStateToProps = (state) => {
   let { loggedUser, eventTypes } = state;
@@ -51,7 +51,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-class Schedule extends Component {
+class Schedule extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -120,10 +120,6 @@ class Schedule extends Component {
       .catch((err) => console.log);
   };
 
-  updateEventTypes = () => {
-    this.getEventTypesFromAPI();
-  };
-
   componentDidMount() {
     this.getEventTypesFromAPI();
     this.getUpcomingPastDataFromAPI();
@@ -135,9 +131,7 @@ class Schedule extends Component {
     return (
       <div className="schedule-wrapper">
         <div>
-          <span style={{ fontFamily: "Roboto Condensed", fontSize: "2rem" }}>
-            My Schedule
-          </span>
+          <span className="title">My Schedule</span>
           <div className="tab-container">
             <Nav tabs>
               <NavItem className={this.state.activeTab === 1 ? "active" : ""}>
@@ -153,18 +147,12 @@ class Schedule extends Component {
             </Nav>
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId={1} className="pane">
-                <Row style={{ marginTop: "40px" }}>
+                <Row className="row">
                   <Col sm="12">
-                    <div
-                      style={{
-                        paddingLeft: "1rem",
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
+                    <div className="top-navigation">
                       {this.state.event_types &&
                         this.state.event_types.length > 0 && (
-                          <p style={{ marginLeft: "1rem" }}>
+                          <p style={marginLeft}>
                             My Link <br />
                             <Link to={this.cust}>{this.cust}</Link>
                           </p>
@@ -174,13 +162,9 @@ class Schedule extends Component {
                           pathname: "/event_type/create",
                           user: this.user,
                         }}
-                        style={{ marginLeft: "1rem", textDecoration: "none" }}
+                        style={navLink}
                       >
-                        <Button
-                          outline
-                          color="primary"
-                          style={{ marginRight: "1rem" }}
-                        >
+                        <Button outline color="primary" style={marginRight}>
                           + New Event Type
                         </Button>
                       </Link>
@@ -197,7 +181,7 @@ class Schedule extends Component {
                                   {event.duration} mins
                                 </small>
                               </CardText>
-                              <CardFooter style={{ backgroundColor: "white" }}>
+                              <CardFooter style={cardFooter}>
                                 <Link
                                   to={{
                                     pathname: "/event_type/edit",
@@ -217,13 +201,7 @@ class Schedule extends Component {
               <TabPane tabId={2} className="pane">
                 <Row>
                   <Col sm="12">
-                    <Card
-                      body
-                      style={{
-                        width: "80%",
-                        margin: "2rem 2rem 2rem 2rem",
-                      }}
-                    >
+                    <Card body className="card-body">
                       <Nav tabs>
                         <NavItem
                           className={
@@ -246,9 +224,7 @@ class Schedule extends Component {
                       </Nav>
                       <TabContent
                         activeTab={this.state.subActiveTab}
-                        style={{
-                          overflow: "auto",
-                        }}
+                        style={tabContent}
                       >
                         <TabPane tabId={3} className="pane">
                           <Row>

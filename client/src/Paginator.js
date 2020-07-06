@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { Card, CardTitle, Table, Button, ButtonGroup } from "reactstrap";
 
-class Paginator extends Component {
+class Paginator extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -13,17 +13,6 @@ class Paginator extends Component {
       currPage: 1,
       displayData: this.props.data.slice(0, this.props.perPage),
     };
-
-    this.buttons = [];
-
-    for (let i = 1; i <= this.state.pageCount; i++) {
-      this.buttons.push(
-        <Button key={i} onClick={(e) => this.handleClick(e, i)}>
-          {i}
-        </Button>
-      );
-    }
-    console.log(this.buttons);
   }
 
   /*
@@ -66,10 +55,12 @@ class Paginator extends Component {
     }
 
     offset = offset + 2;
-    currPage++;
+    currPage = currPage + 1;
 
     displayData = data.slice(offset, currPage * perPage);
-    this.setState({ offset, currPage, displayData });
+    this.setState({ offset, currPage, displayData }, () =>
+      console.log(this.state.currPage)
+    );
   };
 
   previous = (e) => {
@@ -85,13 +76,29 @@ class Paginator extends Component {
 
     if (offset === 0) return;
     offset = offset - 2;
-    currPage--;
+    currPage = currPage - 1;
     displayData = data.slice(offset, currPage * perPage);
-    this.setState({ offset, currPage, displayData });
+    this.setState({ offset, currPage, displayData }, () =>
+      console.log(this.state.currPage)
+    );
   };
 
   render() {
-    let { displayData } = this.state;
+    const { displayData, pageCount, currPage } = this.state;
+
+    let buttons = [];
+
+    for (let i = 1; i <= pageCount; i++) {
+      buttons.push(
+        <Button
+          key={i}
+          className={currPage === i ? "active" : ""}
+          onClick={(e) => this.handleClick(e, i)}
+        >
+          {i}
+        </Button>
+      );
+    }
 
     if (displayData.length > 0) {
       console.log("Paginator:", displayData);
@@ -107,12 +114,12 @@ class Paginator extends Component {
                     padding: "0.5rem",
                   }}
                 >
-                  <CardTitle>{evt.date}</CardTitle>
+                  <CardTitle>{evt.date_mod}</CardTitle>
                   <Table>
                     <tbody>
                       <tr>
                         <td>
-                          {evt.time_slot_start} -{evt.time_slot_end}
+                          {evt.time_slot_start_mod} -{evt.time_slot_end_mod}
                         </td>
                         <td>
                           {evt.first_name} {evt.last_name}
@@ -129,7 +136,7 @@ class Paginator extends Component {
         <div className="paginator">
           <ButtonGroup>
             <Button onClick={this.next}>Next</Button>
-            {this.buttons.length > 0 && this.buttons.map((a) => a)}
+            {buttons.length > 0 && buttons.map((a) => a)}
             <Button onClick={this.previous}>Previous</Button>
           </ButtonGroup>
         </div>

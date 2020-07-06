@@ -1,16 +1,10 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import React, { PureComponent } from "react";
+
 import { connect } from "react-redux";
-import { Jumbotron, Container, Card } from "reactstrap";
+import { Container, Card } from "reactstrap";
 import { faCircle, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import SchedulerPanel from "./SchedulerPanel";
 
 const mapStateToProps = (state) => {
   let { loggedUser, eventTypes } = state;
@@ -30,11 +24,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 */
 
-const Scheduler = (props) => {
-  let { loggedUser, eventTypes } = props;
-
-  console.log(loggedUser, eventTypes);
-
+class Scheduler extends PureComponent {
   /* let path=props.location.pathname;
   let loggedUser = { name: "Shrikant Gawas", email: "gawasshree@gmail.com" };
   let eventTypes = [
@@ -44,56 +34,62 @@ const Scheduler = (props) => {
   ];
   let path = "/appointments/shrikant-gawas-bookings/";
 */
-  return (
-    <div className="scheduler-wrapper">
-      <Container style={{ margin: "10px 10px" }}>
-        <h3>{loggedUser.name}</h3>
-        <p>
-          Welcome to my scheduling page. Please follow the instructions to add
-          an event to my calender.
-        </p>
-        <Card style={{ width: "24rem", border: "none" }}>
-          <ul>
-            {eventTypes &&
-              eventTypes.length > 0 &&
-              eventTypes.map((et) => (
-                <div key={et.id}>
-                  <hr />
-                  <li>
-                    <p
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <span>
-                        <FontAwesomeIcon
-                          icon={faCircle}
-                          style={{ color: "#7B68EE", marginRight: "10px" }}
-                        />
-                        {et.title}
-                      </span>
-                      <span>
-                        <Link
-                          to={{
-                            pathname: `${props.location.pathname}/panel`,
-                            user: loggedUser,
-                            event: et,
-                          }}
-                        >
-                          <FontAwesomeIcon icon={faCaretRight} />
-                        </Link>
-                      </span>
-                    </p>
-                  </li>
-                </div>
-              ))}
-          </ul>
-        </Card>
-      </Container>
-    </div>
-  );
-};
+  render() {
+    let { loggedUser, eventTypes } = this.props;
+
+    console.log(loggedUser, eventTypes);
+
+    return (
+      <div className="scheduler-wrapper">
+        <Container style={{ margin: "10px 10px" }}>
+          <h3>{loggedUser.name}</h3>
+          <p>
+            Welcome to my scheduling page. Please follow the instructions to add
+            an event to my calender.
+          </p>
+          <Card style={{ width: "24rem", border: "none" }}>
+            <ul>
+              {eventTypes &&
+                eventTypes.length > 0 &&
+                eventTypes.map((et) => (
+                  <div key={et.id}>
+                    <hr />
+                    <li>
+                      <p
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <span>
+                          <FontAwesomeIcon
+                            icon={faCircle}
+                            style={{ color: "#7B68EE", marginRight: "10px" }}
+                          />
+                          {et.title}
+                        </span>
+                        <span>
+                          <Link
+                            to={{
+                              pathname: `${this.props.location.pathname}/panel`,
+                              user: loggedUser,
+                              event: et,
+                            }}
+                          >
+                            <FontAwesomeIcon icon={faCaretRight} />
+                          </Link>
+                        </span>
+                      </p>
+                    </li>
+                  </div>
+                ))}
+            </ul>
+          </Card>
+        </Container>
+      </div>
+    );
+  }
+}
 
 export default connect(mapStateToProps, null)(Scheduler);
 //export default Scheduler;
