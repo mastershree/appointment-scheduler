@@ -4,6 +4,11 @@ import bcrypt, { compare } from "bcryptjs";
 import cors from "cors";
 import moment from "moment";
 import path from "path";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+console.log("process.env", process.env.EMAIL);
 
 const app = express();
 
