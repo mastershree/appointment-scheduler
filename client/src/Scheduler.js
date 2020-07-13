@@ -5,10 +5,11 @@ import { Container, Card } from "reactstrap";
 import { faCircle, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import { getEventTypes } from "./reducers";
 
 const mapStateToProps = (state) => {
-  let { loggedUser, eventTypes } = state;
-
+  let { loggedUser } = state;
+  let eventTypes = getEventTypes(state);
   return { loggedUser, eventTypes };
 };
 

@@ -8,8 +8,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-console.log("process.env", process.env.EMAIL);
-
 const app = express();
 
 app.use(cors()); // Use this after the variable declaration

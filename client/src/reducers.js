@@ -1,3 +1,5 @@
+import { createSelector } from "reselect";
+
 export const SIGNUP = "SIGNUP";
 export const LOGIN = "LOGIN";
 //export const UPDATE = "UPDATE";
@@ -13,7 +15,12 @@ export const initialState = {
   eventTypes: [],
 };
 
-const auth = (state = initialState, action) => {
+export const getEventTypes = createSelector(
+  (state) => state.eventTypes,
+  (eventTypes) => eventTypes
+);
+
+const reducer = (state = initialState, action) => {
   console.log(action.type);
   switch (action.type) {
     case "SIGNUP":
@@ -66,4 +73,4 @@ const auth = (state = initialState, action) => {
   }
 };
 
-export default auth;
+export default reducer;
