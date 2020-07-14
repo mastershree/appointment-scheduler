@@ -1,16 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
-import {
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Col,
-  Card,
-  CardFooter,
-} from "reactstrap";
-import { duration } from "moment";
+import { Button, Form, FormGroup, Label, Input, Col, Card } from "reactstrap";
+
 import validate from "./InputComponents/Validation";
 
 class EditEventType extends Component {

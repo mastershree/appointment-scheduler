@@ -1,15 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import {
-  Card,
-  Form,
-  Input,
-  Button,
-  FormGroup,
-  FormFeedback,
-  Table,
-} from "reactstrap";
+import { Form, Input, Button, FormGroup, FormFeedback } from "reactstrap";
 import validate from "./InputComponents/Validation";
 
 class ResetPassword extends Component {

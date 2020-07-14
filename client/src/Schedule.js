@@ -4,6 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { LOGOUT, LOAD_EVENT_TYPES } from "./reducers";
 import Paginator from "./Paginator";
+import { getEventTypes } from "./reducers";
 
 import {
   TabContent,
@@ -31,8 +32,8 @@ const cardFooter = { backgroundColor: "white" };
 const tabContent = { overflow: "auto" };
 
 const mapStateToProps = (state) => {
-  let { loggedUser, eventTypes } = state;
-
+  let { loggedUser } = state;
+  let eventTypes = getEventTypes(state);
   return { loggedUser, eventTypes };
 };
 
@@ -93,7 +94,7 @@ class Schedule extends PureComponent {
         console.log(res.status);
         if (res.status === 200 && res.data.length > 0) {
           console.log("Yippie:", res.data);
-          this.setState({ event_types: res.data });
+          //    this.setState({ event_types: res.data });
           this.props.loadEventTypes(res.data);
         }
         console.log("Respone: ", res.data);
@@ -125,8 +126,12 @@ class Schedule extends PureComponent {
     this.getUpcomingPastDataFromAPI();
   }
 
+  componentWillUnmount() {
+    console.log("Schedule unmounting");
+  }
+
   render() {
-    //  console.log(this.state.event_types);
+    //  console.log(this.props.eventTypes);
 
     return (
       <div className="schedule-wrapper">
@@ -150,8 +155,8 @@ class Schedule extends PureComponent {
                 <Row className="row">
                   <Col sm="12">
                     <div className="top-navigation">
-                      {this.state.event_types &&
-                        this.state.event_types.length > 0 && (
+                      {this.props.eventTypes &&
+                        this.props.eventTypes.length > 0 && (
                           <p style={marginLeft}>
                             My Link <br />
                             <Link to={this.cust}>{this.cust}</Link>
@@ -171,9 +176,8 @@ class Schedule extends PureComponent {
                     </div>
                     <hr />
                     <CardDeck className="cards-group">
-                      {this.state.event_types &&
-                      this.state.event_types.length > 0
-                        ? this.state.event_types.map((event, index) => (
+                      {this.props.eventTypes && this.props.eventTypes.length > 0
+                        ? this.props.eventTypes.map((event, index) => (
                             <Card body className="event_cards" key={index}>
                               <CardText>{event.title}</CardText>
                               <CardText>

@@ -1,13 +1,9 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import {
-  Jumbotron,
-  Container,
   Card,
   Button,
   Form,
-  Row,
-  Col,
   FormGroup,
   Label,
   Input,
@@ -17,7 +13,7 @@ import axios from "axios";
 //import history from "./history";
 import { connect } from "react-redux";
 import { LOGIN } from "./reducers";
-import TextInput from "./InputComponents/TextInput";
+
 import validate from "./InputComponents/Validation";
 
 const mapStateToProps = (state) => {

@@ -8,7 +8,6 @@ import {
   Input,
   Col,
   Card,
-  CardFooter,
   FormFeedback,
 } from "reactstrap";
 

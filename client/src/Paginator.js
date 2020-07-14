@@ -65,14 +65,7 @@ class Paginator extends PureComponent {
 
   previous = (e) => {
     e.preventDefault();
-    let {
-      currPage,
-      offset,
-      data,
-      displayData,
-      perPage,
-      pageCount,
-    } = this.state;
+    let { currPage, offset, data, displayData, perPage } = this.state;
 
     if (offset === 0) return;
     offset = offset - 2;

@@ -35,6 +35,11 @@ class Scheduler extends PureComponent {
   ];
   let path = "/appointments/shrikant-gawas-bookings/";
 */
+
+  componentWillUnmount() {
+    console.log("Scheduler unmounting");
+  }
+
   render() {
     let { loggedUser, eventTypes } = this.props;
 
